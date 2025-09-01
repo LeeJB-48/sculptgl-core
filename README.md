@@ -18,7 +18,7 @@ This is a library version of [SculptGL](http://stephaneginier.com/sculptgl) that
 
 ### From GitHub (recommended)
 ```bash
-pnpm add git+https://github.com/stephomi/sculptgl.git
+pnpm add git+https://github.com/LeeJB-48/sculptgl-core.git
 ```
 
 ### From npm (if published)
@@ -109,7 +109,7 @@ Supported import/export formats:
 
 ```bash
 # Clone the repository
-git clone https://github.com/stephomi/sculptgl.git
+git clone https://github.com/LeeJB-48/sculptgl-core.git
 cd sculptgl
 
 # Install dependencies
