@@ -14,16 +14,17 @@
   "license": "MIT",
   "main": "dist/sculptgl-core.umd.js",
   "module": "dist/sculptgl-core.es.js",
-  "types": "dist/index.d.ts",
+  "types": "types/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/sculptgl-core.es.js",
       "require": "./dist/sculptgl-core.umd.js",
-      "types": "./dist/index.d.ts"
+      "types": "./types/index.d.ts"
     }
   },
   "files": [
     "dist/",
+    "types/",
     "src/",
     "lib/",
     "README.md",
@@ -52,7 +53,8 @@
     "preview": "vite preview",
     "clean": "rm -rf dist node_modules",
     "reinstall": "pnpm clean && pnpm install",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "postinstall": "npm run build || echo 'Build failed, but installation continues'"
   },
   "repository": {
     "type": "git",

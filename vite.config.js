@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
-import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   build: {
@@ -14,13 +13,27 @@ export default defineConfig({
     rollupOptions: {
       // 외부 의존성 - 번들에 포함하지 않음
       external: ['gl-matrix', 'file-saver'],
-      output: {
-        // UMD 빌드에서 전역 변수명 설정
-        globals: {
-          'gl-matrix': 'glMatrix',
-          'file-saver': 'saveAs'
+      output: [
+        {
+          // ES 모듈 빌드
+          format: 'es',
+          exports: 'named',
+          globals: {
+            'gl-matrix': 'glMatrix',
+            'file-saver': 'saveAs'
+          }
+        },
+        {
+          // UMD 빌드에서 전역 변수명 설정
+          format: 'umd',
+          name: 'SculptGL',
+          exports: 'named',
+          globals: {
+            'gl-matrix': 'glMatrix',
+            'file-saver': 'saveAs'
+          }
         }
-      }
+      ]
     },
     // 소스맵 생성
     sourcemap: true,
@@ -67,19 +80,15 @@ export default defineConfig({
   },
   // 플러그인 설정
   plugins: [
-    // TypeScript 타입 정의 생성
-    dts({
-      insertTypesEntry: true,
-      rollupTypes: true,
-      include: ['src/**/*'],
-      exclude: ['src/**/*.test.*', 'src/**/*.spec.*']
-    }),
     // GLSL 파일을 문자열로 import할 수 있게 해주는 커스텀 플러그인
     {
       name: 'glsl-loader',
       transform(code, id) {
         if (id.endsWith('.glsl')) {
-          return `export default ${JSON.stringify(code)};`;
+          return {
+            code: `export default ${JSON.stringify(code)};`,
+            map: null // 간단한 변환이므로 sourcemap 생성하지 않음
+          };
         }
       }
     }
