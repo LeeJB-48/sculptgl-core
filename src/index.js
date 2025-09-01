@@ -37,8 +37,15 @@ import StateManager from './states/StateManager';
 /**
  * Main SculptGL Engine class
  * Provides a simplified API for 3D sculpting functionality
+ * @extends Scene
  */
 class SculptEngine extends Scene {
+  /**
+   * Create a new SculptGL Engine
+   * @param {WebGLRenderingContext|WebGL2RenderingContext} gl - WebGL context
+   * @param {HTMLCanvasElement} canvas - Canvas element
+   * @param {HTMLElement} [viewport] - Optional viewport element
+   */
   constructor(gl, canvas, viewport) {
     super(gl, canvas, viewport);
     this._isInitialized = false;
@@ -46,7 +53,12 @@ class SculptEngine extends Scene {
 
   /**
    * Initialize the sculpting engine
-   * @param {Object} options - Configuration options
+   * @param {Object} [options] - Configuration options
+   * @param {boolean} [options.autoMatrix=true] - Auto-scale and center imported meshes
+   * @param {boolean} [options.vertexSRGB=true] - Use sRGB color space for vertex colors
+   * @param {boolean} [options.showGrid=false] - Show grid
+   * @param {boolean} [options.showContour=false] - Show wireframe overlay
+   * @param {number} [options.cameraSpeed=0.25] - Camera movement speed
    */
   initialize(options = {}) {
     if (this._isInitialized) {
@@ -172,42 +184,73 @@ class SculptEngine extends Scene {
   }
 }
 
+/**
+ * @typedef {Object} SculptEngineOptions
+ * @property {boolean} [autoMatrix=true] - Auto-scale and center imported meshes
+ * @property {boolean} [vertexSRGB=true] - Use sRGB color space for vertex colors
+ * @property {boolean} [showGrid=false] - Show grid
+ * @property {boolean} [showContour=false] - Show wireframe overlay
+ * @property {number} [cameraSpeed=0.25] - Camera movement speed
+ */
+
+/**
+ * @typedef {Object} MeshData
+ * @property {Float32Array} vertices - Vertex positions
+ * @property {Uint32Array} faces - Face indices
+ * @property {Float32Array} [normals] - Vertex normals
+ * @property {Float32Array} [colors] - Vertex colors
+ * @property {Float32Array} [uvs] - Texture coordinates
+ */
+
 // Export main classes and utilities
 export {
-  // Main engine
+  /** @type {typeof SculptEngine} Main sculpting engine class */
   SculptEngine,
+  /** @type {typeof Scene} Core scene management class */
   Scene,
-  
-  // Mesh classes
+
+  /** @type {typeof Mesh} Base mesh class */
   Mesh,
+  /** @type {typeof MeshStatic} Static mesh class */
   MeshStatic,
+  /** @type {typeof Multimesh} Multi-resolution mesh class */
   Multimesh,
-  
-  // Tools and editing
+
+  /** @type {typeof SculptManager} Sculpting tools manager */
   SculptManager,
+  /** @type {Object} Sculpting tools collection */
   Tools,
-  
-  // Math
+
+  /** @type {typeof Camera} 3D camera class */
   Camera,
+  /** @type {typeof Picking} Ray picking utilities */
   Picking,
+  /** @type {Object} 3D geometry utilities */
   Geometry,
-  
-  // File I/O
+
+  /** @type {Object} File import functions */
   Import,
+  /** @type {Object} File export functions */
   Export,
-  
-  // Rendering
+
+  /** @type {Object} WebGL shader library */
   ShaderLib,
+  /** @type {typeof Background} Background renderer */
   Background,
+  /** @type {Object} Primitive shape generators */
   Primitives,
-  
-  // Utilities
+
+  /** @type {Object} Enums and constants */
   Enums,
+  /** @type {Object} Utility functions */
   Utils,
-  
-  // State management
+
+  /** @type {typeof StateManager} Undo/redo state manager */
   StateManager
 };
 
-// Default export
+/**
+ * Default export - SculptGL Engine
+ * @type {typeof SculptEngine}
+ */
 export default SculptEngine;

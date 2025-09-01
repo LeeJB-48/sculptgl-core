@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
   build: {
@@ -66,6 +67,13 @@ export default defineConfig({
   },
   // 플러그인 설정
   plugins: [
+    // TypeScript 타입 정의 생성
+    dts({
+      insertTypesEntry: true,
+      rollupTypes: true,
+      include: ['src/**/*'],
+      exclude: ['src/**/*.test.*', 'src/**/*.spec.*']
+    }),
     // GLSL 파일을 문자열로 import할 수 있게 해주는 커스텀 플러그인
     {
       name: 'glsl-loader',

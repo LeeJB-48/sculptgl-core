@@ -1,33 +1,67 @@
 import Utils from 'misc/Utils';
 
-// enum marked with /!\ shouldn't change (serialized in sgl file)
+/**
+ * @fileoverview Enums and constants for SculptGL
+ * Note: Enums marked with /!\ shouldn't change (serialized in sgl file)
+ */
 
+/**
+ * Collection of all enums and constants
+ * @namespace Enums
+ */
 var Enums = {};
 
+/**
+ * User interaction actions
+ * @enum {number}
+ */
 Enums.Action = {
+  /** No action */
   NOTHING: 0,
+  /** Mask editing */
   MASK_EDIT: 1,
+  /** Sculpting operation */
   SCULPT_EDIT: 2,
+  /** Camera zoom */
   CAMERA_ZOOM: 3,
+  /** Camera rotation */
   CAMERA_ROTATE: 4,
+  /** Camera panning */
   CAMERA_PAN: 5,
+  /** Alternative camera pan/zoom */
   CAMERA_PAN_ZOOM_ALT: 6
 };
 
-// sculpt tools
+/**
+ * Sculpting tools
+ * @enum {number}
+ */
 Enums.Tools = {
+  /** Basic brush tool */
   BRUSH: 0,
+  /** Inflate/deflate tool */
   INFLATE: 1,
+  /** Twist tool */
   TWIST: 2,
+  /** Smooth surface tool */
   SMOOTH: 3,
+  /** Flatten surface tool */
   FLATTEN: 4,
+  /** Pinch vertices tool */
   PINCH: 5,
+  /** Create creases tool */
   CREASE: 6,
+  /** Drag vertices tool */
   DRAG: 7,
+  /** Paint colors tool */
   PAINT: 8,
+  /** Move mesh tool */
   MOVE: 9,
+  /** Masking tool */
   MASKING: 10,
+  /** Local scale tool */
   LOCALSCALE: 11,
+  /** Transform tool */
   TRANSFORM: 12
 };
 

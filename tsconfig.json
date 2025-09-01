@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "lib": ["ES2015", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noEmit": false,
+    "baseUrl": ".",
+    "paths": {
+      "drawables/*": ["src/drawables/*"],
+      "editing/*": ["src/editing/*"],
+      "files/*": ["src/files/*"],
+      "math3d/*": ["src/math3d/*"],
+      "mesh/*": ["src/mesh/*"],
+      "misc/*": ["src/misc/*"],
+      "render/*": ["src/render/*"],
+      "states/*": ["src/states/*"],
+      "worker/*": ["src/worker/*"],
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.test.*",
+    "**/*.spec.*"
+  ]
+}

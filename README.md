@@ -13,6 +13,7 @@ This is a library version of [SculptGL](http://stephaneginier.com/sculptgl) that
 - 📐 **Math Utilities**: 3D math, camera controls, picking
 - 🔄 **State Management**: Undo/redo functionality
 - 📦 **No UI Dependencies**: Pure sculpting engine without DOM dependencies
+- 🔷 **TypeScript Support**: Full type definitions with JSDoc annotations
 
 ## Installation
 
@@ -28,8 +29,52 @@ pnpm add sculptgl-core
 
 ## Quick Start
 
+### TypeScript (Recommended)
+
+```typescript
+import SculptEngine, { Enums } from 'sculptgl-core';
+
+// Get WebGL context with type safety
+const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+
+if (!gl) {
+  throw new Error('WebGL not supported');
+}
+
+// Create sculpting engine with typed options
+const engine = new SculptEngine(gl, canvas);
+engine.initialize({
+  autoMatrix: true,
+  vertexSRGB: true,
+  showGrid: true,
+  showContour: false
+});
+
+// Load a model with type checking
+const loadModel = async (file: File) => {
+  const arrayBuffer = await file.arrayBuffer();
+  const fileType = file.name.split('.').pop()?.toLowerCase() as 'obj' | 'stl' | 'ply';
+
+  const meshes = engine.loadModel(arrayBuffer, fileType);
+  console.log(`Loaded ${meshes.length} meshes`);
+};
+
+// Set sculpting tool with enum
+engine.setTool(Enums.Tools.BRUSH);
+
+// Render loop
+const animate = () => {
+  engine.render();
+  requestAnimationFrame(animate);
+};
+animate();
+```
+
+### JavaScript
+
 ```javascript
-import SculptEngine from 'sculptgl-core';
+import SculptEngine, { Enums } from 'sculptgl-core';
 
 // Get WebGL context
 const canvas = document.getElementById('canvas');
@@ -42,14 +87,7 @@ engine.initialize({
   showContour: true
 });
 
-// Create a simple cube mesh
-const vertices = new Float32Array([/* vertex data */]);
-const faces = new Uint32Array([/* face indices */]);
-const mesh = engine.createMesh(vertices, faces);
-engine.addMesh(mesh);
-
 // Set sculpting tool
-import { Enums } from 'sculptgl-core';
 engine.setTool(Enums.Tools.BRUSH);
 
 // Render
