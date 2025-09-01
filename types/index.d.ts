@@ -92,6 +92,7 @@ declare module 'sculptgl-core' {
     setFaces(faces: Uint32Array): void;
     setColors(colors: Float32Array): void;
     setTexCoords(texCoords: Float32Array): void;
+    setFacesTexCoord(facesTexCoord: Uint32Array): void;
     setMaterials(materials: Float32Array): void;
 
     // Counts
