@@ -2,7 +2,7 @@ import { vec3, mat4 } from 'gl-matrix';
 import Geometry from 'math3d/Geometry';
 import Tablet from 'misc/Tablet';
 import Utils from 'misc/Utils';
-import TR from 'gui/GuiTR';
+// TR import removed for library version
 
 var _TMP_NEAR = [0.0, 0.0, 0.0];
 var _TMP_NEAR_1 = [0.0, 0.0, 0.0];

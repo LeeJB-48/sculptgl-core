@@ -1,4 +1,4 @@
-import TR from 'gui/GuiTR';
+// TR import removed for library version
 import ShaderBase from 'render/shaders/ShaderBase';
 
 var ShaderMatcap = ShaderBase.getCopy();
@@ -30,19 +30,19 @@ ShaderMatcap.matcaps = [{
   name: 'Skin Hazardousarts2' // too lazy to tr
 }, {
   path: texPath + 'pearl.jpg',
-  name: TR('matcapPearl')
+  name: 'Pearl'
 }, {
   path: texPath + 'clay.jpg',
-  name: TR('matcapClay')
+  name: 'Clay'
 }, {
   path: texPath + 'skin.jpg',
-  name: TR('matcapSkin')
+  name: 'Skin'
 }, {
   path: texPath + 'green.jpg',
-  name: TR('matcapGreen')
+  name: 'Green'
 }, {
   path: texPath + 'white.jpg',
-  name: TR('matcapWhite')
+  name: 'White'
 }];
 
 ShaderMatcap.uniforms = {};

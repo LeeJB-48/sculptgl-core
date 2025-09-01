@@ -5,7 +5,7 @@ import Utils from 'misc/Utils';
 import SculptManager from 'editing/SculptManager';
 import Subdivision from 'editing/Subdivision';
 import Import from 'files/Import';
-import Gui from 'gui/Gui';
+
 import Camera from 'math3d/Camera';
 import Picking from 'math3d/Picking';
 import Background from 'drawables/Background';
@@ -21,17 +21,17 @@ import WebGLCaps from 'render/WebGLCaps';
 
 class Scene {
 
-  constructor() {
-    this._gl = null; // webgl context
+  constructor(gl, canvas, viewport) {
+    this._gl = gl; // webgl context (injected from outside)
+    this._canvas = canvas; // canvas element (injected from outside)
+    this._viewport = viewport; // viewport element (optional, can be null)
 
     this._cameraSpeed = 0.25;
 
     // cache canvas stuffs
     this._pixelRatio = 1.0;
-    this._viewport = document.getElementById('viewport');
-    this._canvas = document.getElementById('canvas');
-    this._canvasWidth = 0;
-    this._canvasHeight = 0;
+    this._canvasWidth = canvas ? canvas.width : 800;
+    this._canvasHeight = canvas ? canvas.height : 600;
     this._canvasOffsetLeft = 0;
     this._canvasOffsetTop = 0;
 
@@ -65,9 +65,7 @@ class Scene {
     this._rttOpaque = null; // rtt half float
     this._rttTransparent = null; // rtt rgbm
 
-    // ui stuffs
-    this._focusGui = false; // if the gui is being focused
-    this._gui = new Gui(this);
+    // ui stuffs removed for library version
 
     this._preventRender = false; // prevent multiple render per frame
     this._drawFullScene = false; // render everything on the rtt
@@ -76,9 +74,11 @@ class Scene {
   }
 
   start() {
-    this.initWebGL();
+    // WebGL context is now injected, no need to initialize
     if (!this._gl)
       return;
+
+    this.initWebGLExtensions();
 
     this._sculptManager = new SculptManager(this);
     this._background = new Background(this._gl, this);
@@ -92,12 +92,10 @@ class Scene {
     this.initGrid();
 
     this.loadTextures();
-    this._gui.initGui();
     this.onCanvasResize();
 
-    var modelURL = getOptionsURL().modelurl;
-    if (modelURL) this.addModelURL(modelURL);
-    else this.addSphere();
+    // Default sphere creation removed for library version
+    // Users should add their own meshes
   }
 
   addModelURL(url) {
@@ -146,9 +144,7 @@ class Scene {
     return this._camera;
   }
 
-  getGui() {
-    return this._gui;
-  }
+  // getGui() method removed for library version
 
   getMeshes() {
     return this._meshes;
@@ -183,7 +179,9 @@ class Scene {
   }
 
   setCanvasCursor(style) {
-    this._canvas.style.cursor = style;
+    if (this._canvas && this._canvas.style) {
+      this._canvas.style.cursor = style;
+    }
   }
 
   initGrid() {
@@ -216,7 +214,7 @@ class Scene {
     }
 
     this._mesh = mesh;
-    this.getGui().updateMesh();
+    // GUI update removed for library version
     this.render();
     return mesh;
   }
@@ -360,18 +358,10 @@ class Scene {
     if (this._grid) this._grid.updateMatrices(cam);
   }
 
-  initWebGL() {
-    var attributes = {
-      antialias: false,
-      stencil: true
-    };
-
-    var canvas = document.getElementById('canvas');
-    var gl = this._gl = canvas.getContext('webgl', attributes) || canvas.getContext('experimental-webgl', attributes);
-    if (!gl) {
-      window.alert('Could not initialise WebGL. No WebGL, no SculptGL. Sorry.');
-      return;
-    }
+  // initWebGL() method removed - WebGL context is now injected from outside
+  initWebGLExtensions() {
+    var gl = this._gl;
+    if (!gl) return;
 
     WebGLCaps.initWebGLExtensions(gl);
     if (!WebGLCaps.getWebGLExtension('OES_element_index_uint'))
@@ -428,19 +418,28 @@ class Scene {
     }
   }
 
-  /** Called when the window is resized */
-  onCanvasResize() {
-    var viewport = this._viewport;
-    var newWidth = viewport.clientWidth * this._pixelRatio;
-    var newHeight = viewport.clientHeight * this._pixelRatio;
+  /** Called when the canvas is resized */
+  onCanvasResize(width, height) {
+    // Use provided dimensions or canvas dimensions
+    var newWidth, newHeight;
+    if (width !== undefined && height !== undefined) {
+      newWidth = width;
+      newHeight = height;
+    } else if (this._canvas) {
+      newWidth = this._canvas.width;
+      newHeight = this._canvas.height;
+    } else {
+      newWidth = this._canvasWidth;
+      newHeight = this._canvasHeight;
+    }
 
-    this._canvasOffsetLeft = viewport.offsetLeft;
-    this._canvasOffsetTop = viewport.offsetTop;
     this._canvasWidth = newWidth;
     this._canvasHeight = newHeight;
 
-    this._canvas.width = newWidth;
-    this._canvas.height = newHeight;
+    if (this._canvas) {
+      this._canvas.width = newWidth;
+      this._canvas.height = newHeight;
+    }
 
     this._gl.viewport(0, 0, newWidth, newHeight);
     this._camera.onResize(newWidth, newHeight);
@@ -661,11 +660,7 @@ class Scene {
 
     name = Picking.addAlpha(u8lum, img.width, img.height, name)._name;
 
-    var entry = {};
-    entry[name] = name;
-    this.getGui().addAlphaOptions(entry);
-    if (tool && tool._ctrlAlpha)
-      tool._ctrlAlpha.setValue(name);
+    // GUI alpha options update removed for library version
   }
 }
 

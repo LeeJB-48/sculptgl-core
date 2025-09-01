@@ -1,4 +1,4 @@
-import TR from 'gui/GuiTR';
+// TR import removed for library version
 import { zip } from 'zip';
 import ExportPLY from 'files/ExportPLY';
 
